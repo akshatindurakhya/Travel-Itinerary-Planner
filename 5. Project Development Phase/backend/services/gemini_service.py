@@ -2,15 +2,87 @@ import os
 import json
 import re
 from typing import Optional
-import google.generativeai as genai
-from dotenv import load_dotenv
+import httpx
+
+try:
+    import google.generativeai as genai
+except ImportError:
+    genai = None
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 from models.schemas import ItineraryResponse, ItineraryDay, Activity
 
-load_dotenv()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+if GEMINI_API_KEY and genai is not None:
+    try:
+        genai.configure(api_key=GEMINI_API_KEY)
+    except Exception:
+        pass
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+CANDIDATE_MODELS = [
+    "gemini-flash-lite-latest",
+    "gemini-flash-latest",
+    "gemini-2.5-flash-lite",
+    "gemini-2.5-flash",
+    "gemini-1.5-flash",
+]
 
-model = genai.GenerativeModel("gemini-1.5-flash")
+
+def _call_gemini_api(prompt: str) -> str:
+    """Call Google Gemini with multi-model fallback and direct REST resilience."""
+    api_key = os.getenv("GEMINI_API_KEY", GEMINI_API_KEY)
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY is not configured")
+
+    last_error = None
+
+    # Primary method: Direct REST via httpx (handles newer Google keys and modern model names robustly)
+    try:
+        with httpx.Client(timeout=45.0) as client:
+            for model_name in CANDIDATE_MODELS:
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
+                headers = {
+                    "Content-Type": "application/json",
+                    "x-goog-api-key": api_key,
+                }
+                payload = {
+                    "contents": [{"parts": [{"text": prompt}]}]
+                }
+                try:
+                    resp = client.post(url, headers=headers, json=payload)
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        candidates = data.get("candidates", [])
+                        if candidates and "content" in candidates[0]:
+                            parts = candidates[0]["content"].get("parts", [])
+                            if parts and "text" in parts[0]:
+                                return parts[0]["text"]
+                    else:
+                        last_error = f"{resp.status_code}: {resp.text}"
+                except Exception as ex:
+                    last_error = str(ex)
+                    continue
+    except Exception as e:
+        last_error = str(e)
+
+    # Fallback method: google-generativeai SDK if installed
+    if genai is not None:
+        for model_name in CANDIDATE_MODELS:
+            try:
+                m = genai.GenerativeModel(model_name)
+                resp = m.generate_content(prompt)
+                if resp and resp.text:
+                    return resp.text
+            except Exception as ex:
+                last_error = str(ex)
+                continue
+
+    raise RuntimeError(f"All Gemini models failed. Last error: {last_error}")
 
 
 def _build_prompt(
@@ -146,8 +218,8 @@ async def generate_itinerary(
         destination, num_days, budget_level, travel_style,
         interests, group_size, group_type, start_date
     )
-    response = model.generate_content(prompt)
-    return _parse_itinerary(response.text, trip_id, destination)
+    response_text = _call_gemini_api(prompt)
+    return _parse_itinerary(response_text, trip_id, destination)
 
 
 async def regenerate_day(
@@ -191,8 +263,8 @@ Return ONLY valid JSON (no markdown, no code fences) for a single day:
 
 Include 4-6 activities. Make it different from a typical Day {day_number} itinerary."""
 
-    response = model.generate_content(prompt)
-    cleaned = re.sub(r"```(?:json)?\s*|\s*```", "", response.text).strip()
+    response_text = _call_gemini_api(prompt)
+    cleaned = re.sub(r"```(?:json)?\s*|\s*```", "", response_text).strip()
     data = json.loads(cleaned)
 
     activities = [
