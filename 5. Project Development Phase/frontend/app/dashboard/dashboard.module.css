@@ -1,0 +1,21 @@
+.page { min-height: 100vh; padding-bottom: 60px; }
+.pageHeader { display: flex; align-items: flex-start; justify-content: space-between; margin: 36px 0 28px; flex-wrap: wrap; gap: 16px; }
+.pageHeader h1 { font-size: 1.8rem; }
+.subtitle { color: var(--text-secondary); font-size: 0.95rem; margin-top: 4px; }
+
+.statsRow { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 36px; }
+.statCard { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px; }
+.statIcon { font-size: 1.6rem; margin-bottom: 8px; }
+.statValue { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-from), var(--accent-to)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.statLabel { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+.tripsHeader { margin-bottom: 20px; }
+.tripsHeader h2 { font-size: 1.2rem; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.skeletonCard { padding: 4px; }
+
+.empty { text-align: center; padding: 80px 24px; background: var(--bg-card); border: 1px dashed var(--border); border-radius: var(--radius-xl); }
+.emptyIcon { font-size: 3.5rem; display: block; margin-bottom: 16px; }
+.empty h3 { font-size: 1.2rem; margin-bottom: 8px; }
+.empty p { color: var(--text-secondary); font-size: 0.9rem; }
