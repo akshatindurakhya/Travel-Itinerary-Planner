@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ── Design Tokens ──────────────────────────────────────────── */
+:root {
+  --bg-base:       hsl(222, 47%, 7%);
+  --bg-surface:    hsl(222, 40%, 10%);
+  --bg-elevated:   hsl(222, 35%, 13%);
+  --bg-card:       hsl(222, 30%, 15%);
+  --bg-hover:      hsl(222, 30%, 18%);
+
+  --accent-from:   hsl(250, 84%, 65%);
+  --accent-to:     hsl(290, 70%, 58%);
+  --accent-amber:  hsl(38, 95%, 60%);
+  --accent-teal:   hsl(175, 70%, 48%);
+  --accent-rose:   hsl(340, 80%, 60%);
+
+  --text-primary:  hsl(220, 20%, 96%);
+  --text-secondary:hsl(220, 15%, 65%);
+  --text-muted:    hsl(220, 12%, 45%);
+
+  --border:        hsl(222, 25%, 20%);
+  --border-glow:   hsl(250, 84%, 65%, 0.4);
+
+  --radius-sm:     8px;
+  --radius-md:     12px;
+  --radius-lg:     16px;
+  --radius-xl:     24px;
+
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md:     0 4px 16px rgba(0,0,0,0.5);
+  --shadow-lg:     0 8px 32px rgba(0,0,0,0.6);
+  --shadow-glow:   0 0 40px hsl(250, 84%, 65%, 0.15);
+
+  --transition:    all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+input, textarea, select { font-family: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ── Typography ─────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 { font-weight: 700; line-height: 1.2; }
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-from), var(--accent-to));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Glassmorphism ──────────────────────────────────────────── */
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.glass-strong {
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* ── Buttons ────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-from), var(--accent-to));
+  color: white;
+  box-shadow: 0 4px 20px hsl(250, 84%, 65%, 0.35);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px hsl(250, 84%, 65%, 0.5);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-secondary {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent-from);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+}
+.btn-ghost:hover { background: var(--bg-elevated); color: var(--text-primary); }
+
+.btn-danger {
+  background: hsl(0, 70%, 45%);
+  color: white;
+}
+.btn-danger:hover { background: hsl(0, 70%, 52%); transform: translateY(-1px); }
+
+.btn-sm { padding: 7px 14px; font-size: 0.8rem; }
+.btn-lg { padding: 14px 28px; font-size: 1rem; }
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ── Form Elements ──────────────────────────────────────────── */
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.form-input {
+  padding: 11px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  transition: var(--transition);
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--accent-from);
+  box-shadow: 0 0 0 3px hsl(250, 84%, 65%, 0.15);
+}
+
+.form-input::placeholder { color: var(--text-muted); }
+
+select.form-input { cursor: pointer; }
+select.form-input option { background: var(--bg-elevated); }
+
+/* ── Cards ──────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: var(--transition);
+}
+
+.card:hover { border-color: hsl(250, 84%, 65%, 0.3); box-shadow: var(--shadow-glow); }
+
+/* ── Badges ─────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge-purple  { background: hsl(250, 84%, 65%, 0.15); color: hsl(250, 84%, 75%); border: 1px solid hsl(250, 84%, 65%, 0.3); }
+.badge-amber   { background: hsl(38, 95%, 60%, 0.15);  color: hsl(38, 95%, 70%);  border: 1px solid hsl(38, 95%, 60%, 0.3); }
+.badge-teal    { background: hsl(175, 70%, 48%, 0.15); color: hsl(175, 70%, 60%); border: 1px solid hsl(175, 70%, 48%, 0.3); }
+.badge-rose    { background: hsl(340, 80%, 60%, 0.15); color: hsl(340, 80%, 72%); border: 1px solid hsl(340, 80%, 60%, 0.3); }
+
+/* ── Layout ─────────────────────────────────────────────────── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.container-sm { max-width: 600px; margin: 0 auto; padding: 0 24px; }
+
+/* ── Loading Spinner ────────────────────────────────────────── */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+  width: 20px; height: 20px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px hsl(250, 84%, 65%, 0.2); }
+  50%       { box-shadow: 0 0 40px hsl(250, 84%, 65%, 0.4); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.animate-fade-up { animation: fadeUp 0.5s ease forwards; }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-hover) 50%, var(--bg-elevated) 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Divider ────────────────────────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 24px 0;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border); }
+
+/* ── Tag / Chip ─────────────────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+  user-select: none;
+}
+
+.chip:hover { border-color: var(--accent-from); color: var(--text-primary); }
+
+.chip.selected {
+  background: hsl(250, 84%, 65%, 0.15);
+  border-color: var(--accent-from);
+  color: hsl(250, 84%, 80%);
+}
+
+/* ── Category Colors ────────────────────────────────────────── */
+.cat-attraction  { color: hsl(250, 84%, 75%); }
+.cat-dining      { color: hsl(38, 95%, 65%); }
+.cat-transport   { color: hsl(175, 70%, 58%); }
+.cat-accommodation { color: hsl(340, 80%, 70%); }
+.cat-leisure     { color: hsl(140, 60%, 60%); }
