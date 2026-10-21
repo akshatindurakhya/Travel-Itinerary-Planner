@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://travel-itinerary-planner-yk7e.onrender.com'
 
 async function request<T>(path: string, options: RequestInit = {}, userId?: string): Promise<T> {
   const headers: Record<string, string> = {
