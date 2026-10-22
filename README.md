@@ -9,8 +9,6 @@ An AI-powered, full-stack travel planning platform that simplifies trip organiza
 | Service | Link | Description |
 | :--- | :--- | :--- |
 | **Live Web App (Frontend)** | [https://travel-itinerary-planner-frontend-rose.vercel.app](https://travel-itinerary-planner-frontend-rose.vercel.app) | Production web application deployed on Vercel |
-| **API Backend (FastAPI)** | [https://travel-itinerary-planner-yk7e.onrender.com](https://travel-itinerary-planner-yk7e.onrender.com) | Live Python API service deployed on Render |
-| **Interactive API Docs** | [https://travel-itinerary-planner-yk7e.onrender.com/docs](https://travel-itinerary-planner-yk7e.onrender.com/docs) | Interactive Swagger UI for testing API endpoints |
 | **Source Code Repository** | [https://github.com/akshatindurakhya/Travel-Itinerary-Planner](https://github.com/akshatindurakhya/Travel-Itinerary-Planner) | Full project repository on GitHub |
 
 ---
